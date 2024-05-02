@@ -11,7 +11,15 @@ Utilice el archivo `data.csv` para resolver las preguntas.
 
 
 """
-
+def lectura_csv ():
+    with open("data.csv", "r") as file:
+        contenido = file.readlines()
+    lista = [line.replace("\n", "") for line in contenido]
+    lista = [line.replace("\t", "_") for line in lista]
+    texto = [line.split("_") for line in lista]
+    return texto
+# texto=lectura_csv()
+# print(texto)
 
 def pregunta_01():
     """
@@ -21,8 +29,12 @@ def pregunta_01():
     214
 
     """
-    return
-
+    listas=lectura_csv()     
+    suma=0
+    suma= sum([suma + int(line[1]) for line in listas])
+    return suma
+#texto=pregunta_01()
+#print(texto)
 
 def pregunta_02():
     """
@@ -39,8 +51,14 @@ def pregunta_02():
     ]
 
     """
-    return
-
+    listas=lectura_csv()
+    letras= [(line[0],1) for line in listas]
+    letras_keys=[]
+    letras_keys=sorted(list(set(tupla[0] for tupla in letras)))
+    cant_registros_letra = [ tuple([tupla[0],sum([int(tuplas[1]) for tuplas in letras if tuplas[0]==tupla[0]]) ]) for tupla in letras_keys]
+    return cant_registros_letra
+# texto=pregunta_02()
+# print(texto)
 
 def pregunta_03():
     """
@@ -57,7 +75,14 @@ def pregunta_03():
     ]
 
     """
-    return
+    listas=lectura_csv()
+    letras= [(line[0] , line[1]) for line in listas]
+    letras_keys=[]
+    letras_keys=sorted(list(set(tupla[0] for tupla in letras)))
+    sum_registros_letra = [ tuple([tupla[0],sum([int(tuplas[1]) for tuplas in letras if tuplas[0]==tupla[0]]) ]) for tupla in letras_keys]
+    return sum_registros_letra
+#texto=pregunta_03()
+#print(texto)
 
 
 def pregunta_04():
@@ -82,8 +107,14 @@ def pregunta_04():
     ]
 
     """
-    return
-
+    listas=lectura_csv()
+    meses= [(str(line[2].split('-')[1]),1) for line in listas]
+    mes_keys=[]
+    mes_keys=sorted(list(set(tupla[0] for tupla in meses)))
+    cant_registros_mes = [(tupla,sum([tuplas[1] for tuplas in meses if tuplas[0]==tupla])) for tupla in mes_keys]
+    return cant_registros_mes
+# texto=pregunta_04()
+# print(texto)
 
 def pregunta_05():
     """
@@ -100,8 +131,14 @@ def pregunta_05():
     ]
 
     """
-    return
-
+    listas=lectura_csv()
+    letras= [(line[0], int(line[1]), int(line [1])) for line in listas]
+    letras_keys=[]
+    letras_keys=sorted(list(set(tupla[0] for tupla in letras)))
+    cant_registros_mes = [((tupla,max([tuplas[1] for tuplas in letras if tuplas[0]==tupla]), min([tuplas[1] for tuplas in letras if tuplas[0]==tupla]))) for tupla in letras_keys]
+    return cant_registros_mes
+# texto=pregunta_05()
+# print(texto)
 
 def pregunta_06():
     """
@@ -125,8 +162,19 @@ def pregunta_06():
     ]
 
     """
-    return
+    listas = lectura_csv()
+    letras = [line[4].split(',')for line in listas]
+    nuevas_letras = []
+    [[nuevas_letras.append(grupos) for grupos in filas ]for filas in letras]
+    letras = ([(diccio.split(':')[0] , int (diccio.split(':')[1]))  for diccio in nuevas_letras])
+    letras_keys=[]
+    [letras_keys.append(clave[0]) for clave in letras if clave[0] not in letras_keys]
+    letras_keys=sorted(letras_keys)
+    cant_registros_mes = [((tupla,min ([tuplas[1] for tuplas in letras if tuplas[0]==tupla]), max ([tuplas[1] for tuplas in letras if tuplas[0]==tupla]))) for tupla in letras_keys]
+    return cant_registros_mes
 
+#texto=pregunta_06()
+#print(texto)
 
 def pregunta_07():
     """
@@ -149,7 +197,15 @@ def pregunta_07():
     ]
 
     """
-    return
+    listas = lectura_csv()
+    letras_keys=[]
+    [letras_keys.append(clave) for clave in [line[1] for line in listas] if clave not in letras_keys]
+    letras_keys=sorted(letras_keys)
+    letras_tupla = [((int(tupla),[tuplas[0] for tuplas in listas if tuplas[1]==tupla])) for tupla in letras_keys]
+    return letras_tupla
+    
+#texto=pregunta_07()
+#print(texto)
 
 
 def pregunta_08():
@@ -174,8 +230,12 @@ def pregunta_08():
     ]
 
     """
-    return
-
+    tuplas=pregunta_07()
+    letras_tupla = [(int(tupla[0]),sorted(list(set(tupla[1])))) for tupla in tuplas]
+    return letras_tupla
+    
+#texto=pregunta_08()
+#print(texto)
 
 def pregunta_09():
     """
@@ -197,8 +257,19 @@ def pregunta_09():
     }
 
     """
-    return
+    listas = lectura_csv()
+    letras = [line[4].split(',') for line in listas]
+    nuevas_letras = []
+    [[nuevas_letras.append(grupos) for grupos in filas ]for filas in letras]
+    tupla = [(nuevas.split(':')[0], 1) for nuevas in nuevas_letras]
+    tupla = sorted( tupla )
+    diccionario = {}
+    for i in tupla:
+        diccionario [i[0]]=sum([j[1] for j in tupla if i[0]==j[0]])
+    return diccionario
 
+#texto=pregunta_09()
+#print(texto)
 
 def pregunta_10():
     """
@@ -218,8 +289,12 @@ def pregunta_10():
 
 
     """
-    return
+    listas = lectura_csv()
+    lista_tupla = [( line[0],len (line[3].split(',')),len (line[4].split(','))) for line in listas]
+    return lista_tupla
 
+#texto=pregunta_10()
+#print(texto)
 
 def pregunta_11():
     """
@@ -239,8 +314,19 @@ def pregunta_11():
 
 
     """
-    return
+    listas = lectura_csv()
+    lista = [(fila[1], fila[3].split(',')) for fila in listas]
+    diccionario={}
+    for i in lista:
+        for x in i[1]:
+            if x in diccionario:
+                diccionario[x] += int(i[0])
+            else:
+                diccionario[x] = int(i[0])
+    return dict(sorted(diccionario.items()))
 
+# texto=pregunta_11()
+# print(texto)
 
 def pregunta_12():
     """
@@ -257,4 +343,14 @@ def pregunta_12():
     }
 
     """
-    return
+    data = lectura_csv()
+    dic = {}
+    for row in data:
+        for letter in row[4].split(","):
+            _, value = letter.split(":")
+            if row[0] in dic:
+                dic[row[0]] += int(value)
+            else:
+                dic[row[0]] = int(value)
+    
+    return dict(sorted(dic.items()))
